@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova Studio</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a2d;
+        --panel-2: #1a2441;
+        --primary: #7c9cff;
+        --secondary: #69e0c9;
+        --text: #edf3ff;
+        --muted: #a9b5d1;
+        --accent: #ffb454;
+        --shadow: rgba(15, 23, 42, 0.4);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #0b1020 0%, #111b32 100%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+        background: rgba(11, 16, 32, 0.7);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: grid;
+        place-items: center;
+        color: #081220;
+        font-weight: 800;
+        box-shadow: 0 10px 30px rgba(124, 156, 255, 0.4);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .nav-cta {
+        padding: 12px 22px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--primary), #a270ff);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 12px 28px rgba(124, 156, 255, 0.35);
+      }
+
+      .hero {
+        padding: 90px 0 60px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 48px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 8px 12px;
+        border: 1px solid rgba(124, 156, 255, 0.4);
+        background: rgba(124, 156, 255, 0.08);
+        border-radius: 999px;
+        color: #ccd9ff;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 22px 0 18px;
+        font-size: clamp(2.8rem, 5vw, 5rem);
+        line-height: 1.02;
+        letter-spacing: -0.06em;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 620px;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .hero-actions {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        padding: 0 22px;
+        border-radius: 999px;
+        font-weight: 700;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--primary), #a270ff);
+        box-shadow: 0 12px 28px rgba(124, 156, 255, 0.35);
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .hero-stats {
+        margin-top: 34px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 800;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .visual {
+        position: relative;
+        display: grid;
+        place-items: center;
+      }
+
+      .dashboard {
+        width: min(100%, 520px);
+        background: linear-gradient(180deg, rgba(17, 27, 48, 0.95), rgba(18, 26, 45, 0.92));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        box-shadow: 0 25px 60px var(--shadow);
+        overflow: hidden;
+      }
+
+      .window-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .dot.red { background: #ff6b6b; }
+      .dot.yellow { background: #f7c75f; }
+      .dot.green { background: #5edaa7; }
+
+      .dashboard-body {
+        padding: 24px;
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .mini-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 18px;
+        padding: 18px 14px;
+      }
+
+      .mini-card .label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .mini-card strong {
+        display: block;
+        margin-top: 12px;
+        font-size: 1.8rem;
+      }
+
+      .chart {
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: 18px;
+        padding: 18px 16px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .chart-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.82rem;
+        margin-bottom: 12px;
+      }
+
+      .bars {
+        display: flex;
+        align-items: end;
+        gap: 12px;
+        height: 150px;
+      }
+
+      .bar {
+        flex: 1;
+        border-radius: 12px 12px 0 0;
+        background: linear-gradient(180deg, var(--secondary), var(--primary));
+        box-shadow: 0 5px 18px rgba(105, 224, 201, 0.25);
+      }
+
+      section {
+        padding: 78px 0;
+      }
+
+      .section-heading {
+        text-align: center;
+        max-width: 720px;
+        margin: 0 auto 42px;
+      }
+
+      .section-heading h2 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 24px;
+        padding: 28px 22px;
+      }
+
+      .icon {
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(124, 156, 255, 0.2), rgba(105, 224, 201, 0.2));
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+      }
+
+      .feature-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.3rem;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .about {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 28px;
+        align-items: center;
+      }
+
+      .about-panel {
+        position: relative;
+        background: linear-gradient(180deg, rgba(18, 26, 45, 0.96), rgba(15, 22, 38, 0.92));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        padding: 26px;
+        box-shadow: 0 25px 60px rgba(10, 16, 28, 0.4);
+      }
+
+      .about-panel::before {
+        content: "";
+        position: absolute;
+        inset: -20px auto auto -20px;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(124, 156, 255, 0.45), transparent 70%);
+        filter: blur(8px);
+      }
+
+      .about-list {
+        list-style: none;
+        margin: 26px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 18px;
+      }
+
+      .about-list li {
+        display: flex;
+        align-items: start;
+        gap: 12px;
+        color: var(--muted);
+      }
+
+      .check {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(105, 224, 201, 0.14);
+        color: var(--secondary);
+        font-weight: 900;
+        flex-shrink: 0;
+      }
+
+      .pricing-wrap {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+      }
+
+      .price-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 28px 24px;
+      }
+
+      .price-card.featured {
+        background: linear-gradient(180deg, rgba(124, 156, 255, 0.12), rgba(17, 27, 48, 0.95));
+        border-color: rgba(124, 156, 255, 0.5);
+        transform: translateY(-8px);
+      }
+
+      .price-card h3 {
+        margin: 0 0 12px;
+      }
+
+      .price {
+        margin: 0 0 16px;
+        font-size: 2.4rem;
+        letter-spacing: -0.04em;
+      }
+
+      .price span {
+        font-size: 1rem;
+        color: var(--muted);
+      }
+
+      .price-card ul {
+        list-style: none;
+        margin: 0 0 20px;
+        padding: 0;
+        color: var(--muted);
+      }
+
+      .price-card li {
+        margin-bottom: 10px;
+      }
+
+      .price-card .button {
+        width: 100%;
+      }
+
+      .cta {
+        text-align: center;
+        padding: 40px 26px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        background: linear-gradient(135deg, rgba(124, 156, 255, 0.14), rgba(105, 224, 201, 0.12));
+      }
+
+      .cta h2 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .cta p {
+        margin: 0 auto 20px;
+        max-width: 620px;
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 28px 0 42px;
+        color: var(--muted);
+      }
+
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 22px;
+      }
+
+      .socials {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .social {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid,
+        .about,
+        .features,
+        .pricing-wrap {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .hero {
+          padding-top: 60px;
+        }
+      }
+
+      @media (max-width: 540px) {
+        .hero-actions {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .mini-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a class="brand" href="#top" aria-label="Nova Studio home">
+          <span class="brand-mark">N</span>
+          <span>Nova Studio</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#features">Features</a>
+          <a href="#about">About</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a class="nav-cta" href="#contact">Book a Call</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Creative growth studio</span>
+            <h1>Build a brand people remember.</h1>
+            <p>
+              We help startups and modern businesses turn ideas into high-converting digital experiences
+              through strategy, design, and launch support.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button primary" href="#pricing">Get Started</a>
+              <a class="button secondary" href="#about">See How It Works</a>
+            </div>
+
+            <div class="hero-stats">
+              <div class="stat">
+                <strong>4.9/5</strong>
+                <span>Client rating</span>
+              </div>
+              <div class="stat">
+                <strong>180+</strong>
+                <span>Projects shipped</span>
+              </div>
+              <div class="stat">
+                <strong>3x</strong>
+                <span>Faster launches</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual" aria-label="Analytics dashboard preview">
+            <div class="dashboard">
+              <div class="window-bar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+
+              <div class="dashboard-body">
+                <div class="mini-grid">
+                  <div class="mini-card">
+                    <span class="label">Revenue</span>
+                    <strong>$92k</strong>
+                  </div>
+                  <div class="mini-card">
+                    <span class="label">Leads</span>
+                    <strong>1.4k</strong>
+                  </div>
+                  <div class="mini-card">
+                    <span class="label">Growth</span>
+                    <strong>+38%</strong>
+                  </div>
+                </div>
+
+                <div class="chart">
+                  <div class="chart-head">
+                    <span>Performance</span>
+                    <strong>Q1</strong>
+                  </div>
+                  <div class="bars" aria-hidden="true">
+                    <span class="bar" style="height: 35%"></span>
+                    <span class="bar" style="height: 52%"></span>
+                    <span class="bar" style="height: 68%"></span>
+                    <span class="bar" style="height: 78%"></span>
+                    <span class="bar" style="height: 86%"></span>
+                    <span class="bar" style="height: 100%"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">What we do</span>
+            <h2>Everything you need to grow online.</h2>
+            <p>From strategy and messaging to UX design and launch campaigns, we help you attract attention and convert interest.</p>
+          </div>
+
+          <div class="features">
+            <article class="feature-card">
+              <div class="icon">⚡</div>
+              <h3>Brand Strategy</h3>
+              <p>Clarify your offer, positioning, and voice so your business stands out in crowded markets.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon">🎨</div>
+              <h3>Creative Design</h3>
+              <p>Build websites and assets that look premium, feel intuitive, and reflect the value of your brand.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon">📈</div>
+              <h3>Performance Marketing</h3>
+              <p>Launch campaigns that generate measurable traction across search, social, and email channels.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="container about">
+          <div class="about-panel">
+            <span class="eyebrow">Why teams choose us</span>
+            <h2>Strategy, execution, and momentum.</h2>
+            <p style="color: var(--muted); margin: 14px 0 0;">
+              We combine insight, creativity, and testing to produce work that not only looks great, but actually drives growth.
+            </p>
+
+            <ul class="about-list">
+              <li>
+                <span class="check">✓</span>
+                <span>Clear roadmap from kickoff to launch, with no guesswork.</span>
+              </li>
+              <li>
+                <span class="check">✓</span>
+                <span>Design systems built for conversion, consistency, and scalability.</span>
+              </li>
+              <li>
+                <span class="check">✓</span>
+                <span>Data-backed iteration to improve performance over time.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="section-heading" style="text-align: left; margin: 0 0 28px; max-width: none;">
+              <span class="eyebrow">Our process</span>
+              <h2>Designed for fast-moving teams.</h2>
+            </div>
+
+            <div class="features" style="grid-template-columns: 1fr 1fr;">
+              <article class="feature-card">
+                <div class="icon">01</div>
+                <h3>Discover</h3>
+                <p>We learn your goals, audience, and competitive edge to build a smarter foundation.</p>
+              </article>
+
+              <article class="feature-card">
+                <div class="icon">02</div>
+                <h3>Design</h3>
+                <p>We shape your visual identity and product experience around clarity and action.</p>
+              </article>
+
+              <article class="feature-card">
+                <div class="icon">03</div>
+                <h3>Launch</h3>
+                <p>We prepare your assets, messaging, and tracking so your rollout feels seamless.</p>
+              </article>
+
+              <article class="feature-card">
+                <div class="icon">04</div>
+                <h3>Grow</h3>
+                <p>We refine what works and scale the system so momentum keeps building.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Simple pricing</span>
+            <h2>Choose the plan that fits your next chapter.</h2>
+          </div>
+
+          <div class="pricing-wrap">
+            <article class="price-card">
+              <h3>Starter</h3>
+              <p class="price">$599 <span>/ month</span></p>
+              <ul>
+                <li>Brand foundations</li>
+                <li>Landing page design</li>
+                <li>1 campaign setup</li>
+                <li>Email support</li>
+              </ul>
+              <a class="button secondary" href="#contact">Start Here</a>
+            </article>
+
+            <article class="price-card featured">
+              <h3>Growth</h3>
+              <p class="price">$1,499 <span>/ month</span></p>
+              <ul>
+                <li>Everything in Starter</li>
+                <li>Custom website design</li>
+                <li>Conversion optimization</li>
+                <li>Priority collaboration</li>
+              </ul>
+              <a class="button primary" href="#contact">Most Popular</a>
+            </article>
+
+            <article class="price-card">
+              <h3>Scale</h3>
+              <p class="price">Custom <span>pricing</span></p>
+              <ul>
+                <li>Multi-channel growth strategy</li>
+                <li>Creative system design</li>
+                <li>Advanced analytics</li>
+                <li>Dedicated partnership</li>
+              </ul>
+              <a class="button secondary" href="#contact">Talk to Us</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container">
+          <div class="cta">
+            <span class="eyebrow">Let’s build</span>
+            <h2>Ready to turn attention into action?</h2>
+            <p>Book a strategy call and we’ll map out the smartest next move for your brand, product, or launch.</p>
+            <a class="button primary" href="mailto:hello@novastudio.co">hello@novastudio.co</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-row">
+        <div>© 2026 Nova Studio</div>
+        <div class="socials" aria-label="Social media links">
+          <a class="social" href="#" aria-label="Instagram">◎</a>
+          <a class="social" href="#" aria-label="X">𝕏</a>
+          <a class="social" href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
